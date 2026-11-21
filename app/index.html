@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Palmline Poster Studio — turn any photo into GTA-style cover art</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header id="topbar">
+  <div id="brand">
+    <span id="brandMark">PL</span>
+    <div>
+      <h1 id="appTitle">Palmline Poster Studio</h1>
+      <p id="appTagline">Your photo, your caption — a Vice Coast cover in one minute.</p>
+    </div>
+  </div>
+  <div id="topActions">
+    <button id="shuffleBtn" type="button" title="Try a random layout and grade">Shuffle look</button>
+    <button id="exportBtn" type="button">Export PNG</button>
+  </div>
+</header>
+
+<main id="studio">
+  <section id="previewPane">
+    <div id="canvasWrap">
+      <canvas id="coverCanvas" width="1080" height="1080" role="img" aria-label="Live preview of the cover art"></canvas>
+      <p id="canvasHint">Click a panel to select it, then drag the photo inside it. Scroll to zoom.</p>
+    </div>
+    <noscript><p id="noScriptNote">Palmline Poster Studio needs JavaScript to draw your cover.</p></noscript>
+    <p id="sizeLabel">Square · 1080 × 1080</p>
+  </section>
+
+  <aside id="controls">
+    <section class="panel" id="photoPanel">
+      <h2>1 · Photos</h2>
+      <p class="hint">Photos never leave this machine. Add your own, or start with a sample.</p>
+      <label id="uploadLabel" for="photoInput">+ Add photos from this device</label>
+      <input id="photoInput" type="file" accept="image/*" multiple hidden>
+      <div id="sampleRow">
+        <button class="sampleThumb" type="button" data-sample="samples/surfer.jpg" title="Sample: surfer at sunset">
+          <img src="samples/surfer.jpg" alt="Sample photo: surfer carrying a board at sunset">
+        </button>
+        <button class="sampleThumb" type="button" data-sample="samples/gasstation.jpg" title="Sample: gas station at dusk">
+          <img src="samples/gasstation.jpg" alt="Sample photo: car at a gas station at dusk">
+        </button>
+        <button class="sampleThumb" type="button" data-sample="samples/skater.jpg" title="Sample: skateboarder at golden hour">
+          <img src="samples/skater.jpg" alt="Sample photo: skateboarder above a boardwalk at golden hour">
+        </button>
+      </div>
+      <div id="photoTray"></div>
+      <p class="hint">Click a photo in the tray to put it in the selected panel.</p>
+    </section>
+
+    <section class="panel" id="layoutPanel">
+      <h2>2 · Layout</h2>
+      <div id="layoutRow" class="choiceRow">
+        <button type="button" data-layout="hero-split" class="choiceBtn is-active">Hero split</button>
+        <button type="button" data-layout="four-grid" class="choiceBtn">Four grid</button>
+        <button type="button" data-layout="tilted-snap" class="choiceBtn">Tilted snaps</button>
+        <button type="button" data-layout="full-bleed" class="choiceBtn">Full bleed</button>
+        <button type="button" data-layout="triptych" class="choiceBtn">Triptych</button>
+      </div>
+    </section>
+
+    <section class="panel" id="gradePanel">
+      <h2>3 · Colour grade</h2>
+      <div id="gradeRow" class="choiceRow">
+        <button type="button" data-grade="vice-sunset" class="choiceBtn is-active">Vice Sunset</button>
+        <button type="button" data-grade="neon-night" class="choiceBtn">Neon Night</button>
+        <button type="button" data-grade="palm-gold" class="choiceBtn">Palm Gold</button>
+        <button type="button" data-grade="teal-haze" class="choiceBtn">Teal Haze</button>
+        <button type="button" data-grade="mono-noir" class="choiceBtn">Mono Noir</button>
+      </div>
+    </section>
+
+    <section class="panel" id="sizePanel">
+      <h2>4 · Post size</h2>
+      <div id="sizeRow" class="choiceRow">
+        <button type="button" data-size="square" class="choiceBtn is-active">Square 1080 × 1080</button>
+        <button type="button" data-size="portrait" class="choiceBtn">Portrait 1080 × 1350</button>
+        <button type="button" data-size="wide" class="choiceBtn">Wide 1920 × 1080</button>
+      </div>
+    </section>
+
+    <section class="panel" id="captionPanel">
+      <h2>5 · Caption</h2>
+      <label class="fieldLabel" for="titleInput">Title</label>
+      <input id="titleInput" type="text" value="VICE COAST" maxlength="24" autocomplete="off">
+      <label class="fieldLabel" for="subtitleInput">Script line</label>
+      <input id="subtitleInput" type="text" value="chasing the sunset" maxlength="40" autocomplete="off">
+      <label class="fieldLabel" for="taglineInput">Tagline</label>
+      <input id="taglineInput" type="text" value="A PALMLINE ORIGINAL · SUMMER 2026" maxlength="48" autocomplete="off">
+    </section>
+
+    <section class="panel" id="panelPanel">
+      <h2>Selected panel</h2>
+      <p id="selectedPanelLabel">Panel 1 — drag the photo to reposition it.</p>
+      <label class="fieldLabel" for="panelZoom">Zoom <span id="zoomValue">1.20×</span></label>
+      <input id="panelZoom" type="range" min="1" max="2.5" step="0.01" value="1.2">
+      <label class="fieldLabel" for="panelPanX">Pan left / right</label>
+      <input id="panelPanX" type="range" min="-0.5" max="0.5" step="0.01" value="0">
+      <label class="fieldLabel" for="panelPanY">Pan up / down</label>
+      <input id="panelPanY" type="range" min="-0.5" max="0.5" step="0.01" value="0">
+      <button id="fillAllBtn" type="button">Fill every panel with this photo</button>
+    </section>
+  </aside>
+</main>
+
+<footer id="pageFoot">
+  <p>Palmline Poster Studio runs fully offline — no upload, no account, no watermark. Fonts: Anton &amp; Pacifico (SIL Open Font License). Sample photos were made with an image model for this app.</p>
+</footer>
+
+<script src="src/photos.js"></script>
+<script src="src/cover.js"></script>
+<script src="src/editor.js"></script>
+</body>
+</html>
